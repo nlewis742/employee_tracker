@@ -3,7 +3,7 @@ const db = require('./db/connection');
 const cTable = require('console.table');
 
 
-
+function start () {
 inquirer
 .prompt([
   {
@@ -21,7 +21,7 @@ inquirer
         addEmployee();
     } else if (main == "Update Employee Role") {
         updateRole();
-    }else if (main == "View All Roles") {
+    } else if (main == "View All Roles") {
         viewRoles();
     } else if (main == "Add Role") {
         addRole();
@@ -30,15 +30,17 @@ inquirer
     } else if (main == "Add Department")
         addDept();
 });
-
+};
 
 
 function viewEmployees() {
-
+    db.query('SELECT * FROM students', function (results) {
+        console.log(results);
+      });
 };
 
 function addEmployee() {
-
+    db.query('')
 };
 
 function updateRole() {
