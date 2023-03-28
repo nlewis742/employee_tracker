@@ -62,3 +62,5 @@ function viewDept() {
 function addDept() {
 
 };
+
+start();
