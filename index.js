@@ -92,13 +92,8 @@ function addEmployee() {
 
     } )
 
-    let tempEmployee = {
-        first_name: "Sarah",
-        last_name: "Buck",
-        role_id: 3,
-        manager_id: null
-    }
 
+    
    // db.query('INSERT INTO employee SET ?;', tempEmployee, function(error, data) {
     // db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', ["Tom", "Jane", 2, 9], function(error, data) {
     /*    if(error) {
@@ -112,6 +107,24 @@ function addEmployee() {
 };
 
 function updateRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "updatedEmployeeRole",  
+            message: "What employee id do you want to update?"
+        },
+        {
+            type: "input",
+            name: "employeeRole",
+            message: "What is their new role id?"
+        }
+    ]).then((response) => {
+        db.query('UPDATE employee SET role_id = ? WHERE id = ?;', [response.employeeRole, response.updatedEmployeeRole], function(error, data) {
+        if(error) throw error;
+        start()
+    })
+    })
+
     
 
 };
