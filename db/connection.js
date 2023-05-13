@@ -1,16 +1,23 @@
 const mysql = require('mysql2');
 
-// Connect to database
+// Setup Database connection Configuration
 const db = mysql.createConnection(
-    {
-      host: 'localhost',
-      // MySQL username,
-      user: 'root',
-      // TODO: Add MySQL password here
-      password: 'BLUE00oc^%sewil',
-      database: 'buisness_db'
-    },
-    
+  {
+    host: 'localhost',
+    // MySQL username,
+    user: 'root',
+     password: 'Account39myPMW%',
+    database: 'buisness_db'
+  },
+  
   );
+  
+  // Connect to database
+  db.connect(function(error) {
+    if(error) {
+      console.log("Error Connecting to DB: ", error);
+    }
+
+  });
 
   module.exports = db;

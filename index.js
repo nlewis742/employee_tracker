@@ -5,14 +5,14 @@ const cTable = require('console.table');
 
 function start () {
 inquirer
-.prompt([
+.prompt(
   {
     type: "list",
     name: "main",
     message: "What would you like to do?",
     choices: ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department"],
   },
-])
+)
 .then((selected) => {
     const { main } = selected;
     if (main == "View All Employees") {
@@ -27,23 +27,91 @@ inquirer
         addRole();
     } else if (main == "View All Departments") {
         viewDept();
-    } else if (main == "Add Department")
+    } else if (main == "Add Department") 
         addDept();
 });
 };
 
 
 function viewEmployees() {
-    db.query('SELECT * FROM students', function (results) {
-        console.log(results);
+    db.query('SELECT * FROM employee', function (error, results) {
+        if(error) {
+            console.log(error);
+            // throw error;
+        }
+        //console.log(results);
+        console.table(results);
+        start();
       });
 };
 
 function addEmployee() {
-    db.query('')
+
+    db.query("SELECT * FROM roles;", function(error, data) {
+        if(error) {
+            console.log(error)
+        }
+
+       // console.log(data);
+       // console.table(data);
+      //  let dataARR = data[]
+        let results = data.map(( {id, name }) => ({
+            name: name,
+            value: id
+        }));
+    
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "firstName",
+                message: "What is the first name of your Employee?"
+            },
+            {
+                type: "input",
+                name: "lastName",
+                message: "What is the last name of your Employee?"
+            },
+            {
+                type: "list",
+                name: "roleId",
+                message: "What is the Role for this Employee?",
+                choices: [results]
+            },
+            {
+                type: "list",
+                name: "managerId",
+                message: "Who is the Manager for this Employee?",
+                choices: [results]
+            }
+        ]).then(data => {
+            console.log(data);
+            db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', [data.firstName, data.lastName, data.roleId, data.managerId], function(error, data) {
+            start()
+        })
+
+
+    } )
+
+    let tempEmployee = {
+        first_name: "Sarah",
+        last_name: "Buck",
+        role_id: 3,
+        manager_id: null
+    }
+
+   // db.query('INSERT INTO employee SET ?;', tempEmployee, function(error, data) {
+    // db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', ["Tom", "Jane", 2, 9], function(error, data) {
+    /*    if(error) {
+            console.log(error);
+        }
+        */
+       // console.log("Data: ", data);
+       // start()
+  //  })
 };
 
 function updateRole() {
+    
 
 };
 
