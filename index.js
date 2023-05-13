@@ -108,6 +108,7 @@ function addEmployee() {
        // console.log("Data: ", data);
        // start()
   //  })
+    })
 };
 
 function updateRole() {
