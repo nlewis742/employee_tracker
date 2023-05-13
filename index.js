@@ -75,13 +75,13 @@ function addEmployee() {
                 type: "list",
                 name: "roleId",
                 message: "What is the Role for this Employee?",
-                choices: [results]
+                choices: results
             },
             {
                 type: "list",
                 name: "managerId",
                 message: "Who is the Manager for this Employee?",
-                choices: [results]
+                choices: results
             }
         ]).then(data => {
             console.log(data);
@@ -94,16 +94,7 @@ function addEmployee() {
 
 
     
-   // db.query('INSERT INTO employee SET ?;', tempEmployee, function(error, data) {
-    // db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);', ["Tom", "Jane", 2, 9], function(error, data) {
-    /*    if(error) {
-            console.log(error);
-        }
-        */
-       // console.log("Data: ", data);
-       // start()
-  //  })
-    })
+})
 };
 
 function updateRole() {
@@ -130,18 +121,70 @@ function updateRole() {
 };
 
 function viewRoles() {
-
-};
+    db.query('SELECT * FROM roles', function (error, results) {
+        if(error) {
+            console.log(error);
+            // throw error;
+        }
+        //console.log(results);
+        console.table(results);
+        start();
+      }
+    )};
 
 function addRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "roleName",
+            message: "What is the name of the role you want to add?"
+        },
+        {
+            type: "input",
+            name: "roleSalary",
+            message: "What is the salary for this role?"
+        },
+        {
+            type: "input",
+            name: "roleDept",
+            message: "What is the department id for this role?"
+        }
+    ]).then((response) => {
+        db.query('INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?);', [response.roleName, response.roleSalary, response.roleDept], function(error, data) {
+            if(error) throw error;
+            start()
+        })
+    })
 
 };
 
 function viewDept() {
+    db.query('SELECT * FROM department', function (error, results) {
+        if(error) {
+            console.log(error);
+            // throw error;
+        }
+        //console.log(results);
+        console.table(results);
+        start();
+      }
+    )
 
 };
 
 function addDept() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "deptName",
+            message: "What is the name of the department you want to add?"
+        }
+    ]).then((response) => {
+        db.query('INSERT INTO department (dept_name) VALUES (?);', [response.deptName], function(error, data) {
+            if(error) throw error;
+            start()
+        })
+    })
 
 };
 
